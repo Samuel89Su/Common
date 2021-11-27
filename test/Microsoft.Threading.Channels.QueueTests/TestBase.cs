@@ -11,13 +11,12 @@ namespace Microsoft.Threading.Channels.QueueTests
     {
         internal static IServiceProvider serviceProvider;
 
-        private TestServer _server;
-        public TestBase()
+        protected TestServer StartServer<TStartup>() where TStartup : class, IStartup
         {
-            _server = new TestServer(
+            return new TestServer(
                 WebHost
                 .CreateDefaultBuilder()
-                .UseStartup<Startup>());
+                .UseStartup<TStartup>());
         }
     }
 }

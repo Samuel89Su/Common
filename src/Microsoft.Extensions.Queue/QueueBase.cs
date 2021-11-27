@@ -10,9 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.Threading.Channels.Queue
 {
-    public class QueueBase<T> : IQueue<T>, IQueueProducer<T>, IQueueConsumer<T>
+    public class QueueBase<T> : IQueue<T>, IQueueProducer<T>
     {
-        private Channel<T> _channel;
+        private readonly Channel<T> _channel;
 
         protected ChannelReader<T> ChannelReader { get; private set; }
         protected ChannelWriter<T> ChannelWriter { get; private set; }
@@ -20,8 +20,6 @@ namespace Microsoft.Threading.Channels.Queue
         public string Name => typeof(T).Name;
 
         public IQueueProducer<T> QueueProducer => this;
-
-        public IQueueConsumer<T> QueueConsumer => this;
 
         public QueueBase(IServiceProvider serviceProvider)
         {
@@ -41,7 +39,8 @@ namespace Microsoft.Threading.Channels.Queue
                     }
                 }
             }
-            else
+
+            if (_channel == null)
             {
                 _channel = Channel.CreateUnbounded<T>();
             }
@@ -87,70 +86,9 @@ namespace Microsoft.Threading.Channels.Queue
         //
         // 返回结果:
         //     The created async enumerable.
-        public virtual IAsyncEnumerable<T> ReadAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public IAsyncEnumerable<T> ReadAllAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             return ChannelReader.ReadAllAsync(cancellationToken);
-        }
-        //
-        // 摘要:
-        //     Asynchronously reads an item from the channel.
-        //
-        // 参数:
-        //   cancellationToken:
-        //     A System.Threading.CancellationToken used to cancel the read operation.
-        //
-        // 返回结果:
-        //     A System.Threading.Tasks.ValueTask`1 that represents the asynchronous read operation.
-        public ValueTask<T> ReadAsync(CancellationToken cancellationToken = default)
-        {
-            return ChannelReader.ReadAsync(cancellationToken);
-        }
-        //
-        // 摘要:
-        //     Attempts to peek at an item from the channel.
-        //
-        // 参数:
-        //   item:
-        //     The peeked item, or a default value if no item could be peeked.
-        //
-        // 返回结果:
-        //     true if an item was read; otherwise, false.
-        public bool TryPeek([MaybeNullWhen(false)] out T item)
-        {
-            return ChannelReader.TryPeek(out item);
-        }
-        //
-        // 摘要:
-        //     Attempts to read an item from the channel.
-        //
-        // 参数:
-        //   item:
-        //     The read item, or a default value if no item could be read.
-        //
-        // 返回结果:
-        //     true if an item was read; otherwise, false.
-        public bool TryRead([MaybeNullWhen(false)] out T item)
-        {
-            return ChannelReader.TryRead(out item);
-        }
-        //
-        // 摘要:
-        //     Returns a System.Threading.Tasks.ValueTask`1 that will complete when data is
-        //     available to read.
-        //
-        // 参数:
-        //   cancellationToken:
-        //     A System.Threading.CancellationToken used to cancel the wait operation.
-        //
-        // 返回结果:
-        //     A System.Threading.Tasks.ValueTask`1 that will complete with a true result when
-        //     data is available to read or with a false result when no further data will ever
-        //     be available to be read due to the channel completing successfully.
-        //     If the channel completes with an exception, the task will also complete with
-        //     an exception.
-        public ValueTask<bool> WaitToReadAsync(CancellationToken cancellationToken = default)
-        {
-            return ChannelReader.WaitToReadAsync(cancellationToken);
         }
         #endregion
     }
