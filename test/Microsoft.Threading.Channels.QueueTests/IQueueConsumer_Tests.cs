@@ -1,11 +1,9 @@
-﻿using Microsoft.Threading.Channels.Queue;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Threading.Channels.Queue;
 using Shouldly;
+using System;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Microsoft.Threading.Channels.QueueTests
 {
@@ -16,10 +14,7 @@ namespace Microsoft.Threading.Channels.QueueTests
         {
             StartServer<StartupBase>();
 
-            serviceProvider.GetService<IQueueConsumer<MockEvent, IQueue<MockEvent>, IEventHandler<MockEvent>>>()
-                .ShouldNotBeNull();
-
-            serviceProvider.GetService<IQueueConsumer<MockEvent>>()
+            serviceProvider.GetService<IQueueConsumer<int>>()
                 .ShouldNotBeNull();
         }
 
@@ -28,27 +23,34 @@ namespace Microsoft.Threading.Channels.QueueTests
         {
             StartServer<StartupBase>();
 
-            var queue = serviceProvider.GetService<IQueue<MockEvent>>();
+            var queue = serviceProvider.GetService<IQueue<int>>();
 
             var producer = queue.QueueProducer;
 
             Task.Factory.StartNew(async () =>
             {
-                await producer.WriteAsync(new MockEvent { Id = 1 });
+                await producer.WriteAsync(1);
 
                 await Task.Delay(TimeSpan.FromSeconds(3));
 
                 producer.TryComplete();
             });
 
-            var consumer = serviceProvider.GetService<IQueueConsumer<MockEvent>>();
+            var consumer = serviceProvider.GetService<IQueueConsumer<int>>();
 
             await consumer.StartConsume();
         }
     }
 
-    public class MockEvent : IEventData
+    public class MockConsumer : QueueConsumerBase<int>
     {
-        public int Id { get; set; }
+        public MockConsumer(IQueue<int> queue) : base(queue)
+        {
+        }
+
+        protected override async Task Handle(int data)
+        {
+            Console.WriteLine(data);
+        }
     }
 }

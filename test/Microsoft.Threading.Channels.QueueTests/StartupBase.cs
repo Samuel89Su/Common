@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Threading.Channels.Queue;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Threading.Channels;
 
 namespace Microsoft.Threading.Channels.QueueTests
 {
@@ -21,12 +19,7 @@ namespace Microsoft.Threading.Channels.QueueTests
 
         public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.Add(ServiceDescriptor.Singleton(typeof(IQueue<>), typeof(QueueBase<>)));
-
-            services.Add(ServiceDescriptor.Transient(typeof(IQueueConsumer<,,>), typeof(QueueConsumerBase<,,>)));
-            services.Add(ServiceDescriptor.Transient(typeof(IQueueConsumer<>), typeof(QueueConsumerBase<>)));
-
-            services.Add(ServiceDescriptor.Transient(typeof(IEventHandler<>), typeof(MockEventHandler<>)));
+            services.AddQueue<int, MockConsumer>();
 
             return TestBase.serviceProvider = services.BuildServiceProvider();
         }
