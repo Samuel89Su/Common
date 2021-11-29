@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Microsoft.Threading.Channels.Queue
+namespace Jelly.Threading.Channels.Queue
 {
     public interface IQueueConsumer<T> : IQueueConsumer<T, IQueue<T>>
     { }

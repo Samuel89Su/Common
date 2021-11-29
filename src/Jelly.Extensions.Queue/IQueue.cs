@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-namespace Microsoft.Threading.Channels.Queue
+namespace Jelly.Threading.Channels.Queue
 {
     public interface IQueue<T>
     {

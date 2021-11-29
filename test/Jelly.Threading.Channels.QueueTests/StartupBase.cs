@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
-namespace Microsoft.Threading.Channels.QueueTests
+namespace Jelly.Threading.Channels.QueueTests
 {
     public class StartupBase : IStartup
     {

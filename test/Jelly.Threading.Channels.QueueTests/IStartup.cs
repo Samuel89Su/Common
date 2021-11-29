@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace Microsoft.Threading.Channels.QueueTests
+namespace Jelly.Threading.Channels.QueueTests
 {
     public interface IStartup
     {

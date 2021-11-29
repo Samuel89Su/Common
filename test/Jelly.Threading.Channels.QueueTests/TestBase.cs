@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Threading.Channels.QueueTests
+namespace Jelly.Threading.Channels.QueueTests
 {
     public class TestBase
     {

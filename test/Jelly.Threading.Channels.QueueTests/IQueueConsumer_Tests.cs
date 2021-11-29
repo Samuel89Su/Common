@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Threading.Channels.Queue;
+using Jelly.Threading.Channels.Queue;
 using Shouldly;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Microsoft.Threading.Channels.QueueTests
+namespace Jelly.Threading.Channels.QueueTests
 {
     public class IQueueConsumer_Tests : TestBase
     {

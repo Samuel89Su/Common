@@ -1,4 +1,4 @@
-﻿using Microsoft.Threading.Channels.Queue;
+﻿using Jelly.Threading.Channels.Queue;
 
 namespace Microsoft.Extensions.DependencyInjection.Extensions
 {

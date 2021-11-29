@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Channels;
 
-namespace Microsoft.Threading.Channels.Queue
+namespace Jelly.Threading.Channels.Queue
 {
     public class QueueOptions
     {

@@ -8,7 +8,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Threading.Channels.Queue
+namespace Jelly.Threading.Channels.Queue
 {
     public class QueueBase<T> : IQueue<T>, IQueueProducer<T>
     {

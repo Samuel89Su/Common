@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Microsoft.Threading.Channels.Queue
+namespace Jelly.Threading.Channels.Queue
 {
     public class QueueConsumerBase<T> : QueueConsumerBase<T, IQueue<T>>, IQueueConsumer<T>
     {
